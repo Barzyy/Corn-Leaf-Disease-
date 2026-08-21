@@ -3,5 +3,5 @@ torch
 torchvision
 pillow
 numpy
-pytorch-grad-cam
 opencv-python-headless
+grad-cam
