@@ -5,7 +5,6 @@ import torchvision.transforms as transforms
 import torchvision.models as models
 import torch.nn as nn
 import numpy as np
-import cv2
 import time
 import pandas as pd
 import altair as alt
