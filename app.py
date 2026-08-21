@@ -219,25 +219,32 @@ def predict(image):
 
 def generate_gradcam(image):
 
-    rgb_img = image.resize((224,224))
-
-    rgb_img = np.array(rgb_img).astype(np.float32) / 255.0
+    rgb_img = np.array(
+    image.resize((224, 224))
+    ).astype(np.float32) / 255.0
 
     input_tensor = transform(image).unsqueeze(0)
 
-    pred, _, _ = predict(image)
-
-    targets = [ClassifierOutputTarget(pred)]
+    targets = [
+    ClassifierOutputTarget(pred)
+    ]
 
     grayscale_cam = cam(
         input_tensor=input_tensor,
         targets=targets
     )[0]
 
-    grayscale_cam = cv2.resize(
-        grayscale_cam,
-        (224,224)
+    # Resize Grad-CAM menggunakan PIL
+    cam_image = Image.fromarray(
+        np.uint8(grayscale_cam * 255)
     )
+
+    cam_image = cam_image.resize(
+        (224, 224),
+        Image.Resampling.BILINEAR
+    )
+
+    grayscale_cam = np.asarray(cam_image).astype(np.float32) / 255.0
 
     visualization = show_cam_on_image(
         rgb_img,
